@@ -79,3 +79,5 @@ DerivedDataCache/*
 !ThirdParty/*
 *.DotSettings.user
 /Windows/*
+PackagedPlugins/*
+!UEPluginAutoPacker.exe
