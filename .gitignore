@@ -74,10 +74,10 @@ Plugins/**/Intermediate/*
 DerivedDataCache/*
 
 # Custom
+!.Template/
 .idea/
 .vsconfig
 !ThirdParty/*
 *.DotSettings.user
 /Windows/*
 PackagedPlugins/*
-!UEPluginAutoPacker.exe
