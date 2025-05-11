@@ -13,24 +13,15 @@ for %%F in ("%MAP_URL%") do set "CONFIG_FILE=%ROOT%%%~nxF"
 
 echo 使用配置文件: %CONFIG_FILE%
 
-rem ──────────────── ② 可选：先比对 MD5，如未改变则跳过 ───────────────
-if exist "%CONFIG_FILE%" (
-    for /f %%H in ('certutil -hashfile "%CONFIG_FILE%" MD5 ^| find /i /v "MD5"') do set "OLD_MD5=%%H"
-) else (
-    set "OLD_MD5="
-)
-
+rem ──────────────── ② 直接下载并覆盖 ───────────────
 echo 正在下载远程映射…
-powershell -Command "Invoke-WebRequest -Uri '%MAP_URL%' -OutFile '%CONFIG_FILE%.tmp' -UseBasicParsing"
+powershell -Command "Invoke-WebRequest -Uri '%MAP_URL%' -OutFile '%CONFIG_FILE%' -UseBasicParsing"
 
-for /f %%H in ('certutil -hashfile "%CONFIG_FILE%.tmp" MD5 ^| find /i /v "MD5"') do set "NEW_MD5=%%H"
-
-if /I "%OLD_MD5%"=="%NEW_MD5%" (
-    echo 映射文件未改变，直接启动同步器…
-    del "%CONFIG_FILE%.tmp"
+if exist "%CONFIG_FILE%" (
+    echo ✅ 配置文件已更新: %CONFIG_FILE%
 ) else (
-    move /Y "%CONFIG_FILE%.tmp" "%CONFIG_FILE%" >nul
-    echo 映射文件已更新: %CONFIG_FILE%
+    echo ❌ 下载失败，配置文件未生成。
+    exit /b 1
 )
 
 rem ──────────────── ③ 启动打包好的 SimpleFileUpdater.exe ───────────────
