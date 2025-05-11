@@ -25,9 +25,6 @@
 *.a
 *.lib
 
-# Custom Template
-!.Template/
-
 # Executables
 *.exe
 *.out
@@ -77,6 +74,7 @@ Plugins/**/Intermediate/*
 DerivedDataCache/*
 
 # Custom
+!.Template/*
 .idea/
 .vsconfig
 !ThirdParty/*
