@@ -1,1 +1,4 @@
+../.gitignore = https://raw.githubusercontent.com/MZSH-UEPlugins/UEPluginDevTemplate/refs/heads/main/.gitignore
+../LICENSE = https://raw.githubusercontent.com/MZSH-UEPlugins/UEPluginDevTemplate/refs/heads/main/LICENSE
 ../插件一键打包工具.exe = https://github.com/MZSH-Tools/UEPluginAutoPacker/releases/download/v1.0.0/UEPluginAutoPacker.exe
+
