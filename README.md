@@ -67,9 +67,7 @@ UEPluginDevTemplate/
 建议每个 `.h` 和 `.cpp` 文件添加如下声明，以明确插件归属与使用约定：
 
 ```cpp
-// Licensed under custom terms by mengzhishanghun.
-// Commercial use allowed. Redistribution is prohibited.
-// Contact: mengzhishanghun@outlook.com
+// mengzhishanghun 2025 All Rights Reserved.
 ```
 
 你可以根据此模板批量添加到所有源文件中，以提升项目的专业性与合规性。
