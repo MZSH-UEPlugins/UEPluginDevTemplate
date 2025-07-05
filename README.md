@@ -19,7 +19,6 @@ UEPluginDevTemplate/
 │       ├── Source/
 │       ├── Content/
 │       └── YourPlugin.uplugin
-├── LICENSE                   # 通用英文许可证（可商用，禁止转售）
 ├── README.md                 # 本说明文件
 ├── .gitignore                # 已配置常用中间目录屏蔽
 ├── UEPluginDevTemplate.uproject
@@ -50,24 +49,12 @@ UEPluginDevTemplate/
 
 ---
 
-## 📜 许可证说明
-
-本模板附带的 `LICENSE` 文件为自定义英文授权协议：
-
-- ✅ 允许在个人或商业项目中自由使用、修改；
-- ❌ 禁止二次出售、转售、打包传播此模板本体；
-- 📮 有任何建议或问题可联系作者：`mengzhishanghun@outlook.com`
-
-你可以直接使用该 LICENSE 于你自己的插件项目中，无需修改。
-
----
-
 ## 📌 源码头部声明规范
 
 建议每个 `.h` 和 `.cpp` 文件添加如下声明，以明确插件归属与使用约定：
 
 ```cpp
-// mengzhishanghun 2025 All Rights Reserved.
+// Copyright mengzhishanghun 2025 All Rights Reserved.
 ```
 
 你可以根据此模板批量添加到所有源文件中，以提升项目的专业性与合规性。
