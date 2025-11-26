@@ -2,11 +2,11 @@
 chcp 65001 >nul
 setlocal
 
-rem ────────────────────────────────────────────────
+rem ================================================
 rem Update script - maintained remotely
 rem Downloads and runs SimpleFileUpdater
 rem Usage: AutoUpdate.bat <PROJECT_ROOT>
-rem ────────────────────────────────────────────────
+rem ================================================
 
 set "PROJECT_ROOT=%~1"
 set "TEMPLATE_DIR=%PROJECT_ROOT%.Template\"
@@ -14,7 +14,7 @@ set "BASE_URL=https://raw.githubusercontent.com/MZSH-UEPlugins/UEPluginDevTempla
 set "UPDATER_EXE=%TEMPLATE_DIR%SimpleFileUpdater.exe"
 set "CONFIG_FILE=%TEMPLATE_DIR%.FileUpdate"
 
-rem ───── 下载 SimpleFileUpdater ─────
+rem ===== Download SimpleFileUpdater =====
 echo [INFO] Downloading SimpleFileUpdater...
 curl -sL "%BASE_URL%/SimpleFileUpdater.exe" -o "%UPDATER_EXE%"
 if not exist "%UPDATER_EXE%" (
@@ -22,7 +22,7 @@ if not exist "%UPDATER_EXE%" (
     exit /b 1
 )
 
-rem ───── 下载配置文件 ─────
+rem ===== Download config =====
 echo [INFO] Downloading config...
 curl -sL "%BASE_URL%/.FileUpdate" -o "%CONFIG_FILE%"
 if not exist "%CONFIG_FILE%" (
@@ -30,7 +30,9 @@ if not exist "%CONFIG_FILE%" (
     exit /b 1
 )
 
-rem ───── 执行 SimpleFileUpdater ─────
+rem ===== Run SimpleFileUpdater =====
 echo [INFO] Running SimpleFileUpdater...
+set "PYTHONIOENCODING=utf-8"
+set "PYTHONUTF8=1"
 "%UPDATER_EXE%" "%CONFIG_FILE%"
 echo [OK] Update completed

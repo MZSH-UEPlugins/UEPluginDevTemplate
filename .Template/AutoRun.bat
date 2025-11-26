@@ -2,16 +2,16 @@
 chcp 65001 >nul
 setlocal
 
-rem ────────────────────────────────────────────────
+rem ================================================
 rem Install script - maintained remotely
 rem Only handles installation/initialization logic
 rem Usage: AutoRun.bat <PROJECT_ROOT>
-rem ────────────────────────────────────────────────
+rem ================================================
 
 set "PROJECT_ROOT=%~1"
 set "TEMPLATE_DIR=%PROJECT_ROOT%.Template\"
 
-rem ───── 安装 Git Hooks ─────
+rem ===== Install Git Hooks =====
 echo [INFO] Installing Git Hooks...
 if exist "%PROJECT_ROOT%.git\hooks" (
     if exist "%TEMPLATE_DIR%hooks\pre-push" (
