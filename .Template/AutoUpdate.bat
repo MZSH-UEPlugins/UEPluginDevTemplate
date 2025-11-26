@@ -8,8 +8,9 @@ rem Downloads and runs SimpleFileUpdater
 rem Usage: AutoUpdate.bat <PROJECT_ROOT>
 rem ================================================
 
+cd /d "%~dp0"
 set "PROJECT_ROOT=%~1"
-set "TEMPLATE_DIR=%PROJECT_ROOT%.Template\"
+set "TEMPLATE_DIR=%~dp0"
 set "BASE_URL=https://raw.githubusercontent.com/MZSH-UEPlugins/UEPluginDevTemplate/main/.Template"
 set "UPDATER_EXE=%TEMPLATE_DIR%SimpleFileUpdater.exe"
 set "CONFIG_FILE=%TEMPLATE_DIR%.FileUpdate"
@@ -34,7 +35,5 @@ rem ===== Run SimpleFileUpdater =====
 echo [INFO] Running SimpleFileUpdater...
 set "PYTHONIOENCODING=utf-8"
 set "PYTHONUTF8=1"
-pushd "%TEMPLATE_DIR%"
 "%UPDATER_EXE%" "%CONFIG_FILE%" 2>nul || echo [WARN] SimpleFileUpdater exited with error (files may still be updated)
-popd
 echo [OK] Update completed

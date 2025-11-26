@@ -7,6 +7,7 @@ rem Bootstrap script - downloads and runs AutoUpdate + AutoRun
 rem This file should NEVER need modification
 rem ================================================
 
+cd /d "%~dp0"
 set "PROJECT_ROOT=%~dp0"
 set "TEMPLATE_DIR=%PROJECT_ROOT%.Template\"
 set "BASE_URL=https://raw.githubusercontent.com/MZSH-UEPlugins/UEPluginDevTemplate/main/.Template"

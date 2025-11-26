@@ -8,8 +8,9 @@ rem Only handles installation/initialization logic
 rem Usage: AutoRun.bat <PROJECT_ROOT>
 rem ================================================
 
+cd /d "%~dp0"
 set "PROJECT_ROOT=%~1"
-set "TEMPLATE_DIR=%PROJECT_ROOT%.Template\"
+set "TEMPLATE_DIR=%~dp0"
 
 rem ===== Install Git Hooks =====
 echo [INFO] Installing Git Hooks...
