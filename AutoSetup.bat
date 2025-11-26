@@ -26,5 +26,3 @@ curl -sL "%BASE_URL%/AutoRun.bat" -o "%TEMPLATE_DIR%AutoRun.bat"
 if exist "%TEMPLATE_DIR%AutoRun.bat" (
     call "%TEMPLATE_DIR%AutoRun.bat" "%PROJECT_ROOT%"
 )
-
-pause
