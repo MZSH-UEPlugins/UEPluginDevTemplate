@@ -19,6 +19,7 @@ echo [INFO] Downloading AutoUpdate...
 curl -sL "%BASE_URL%/AutoUpdate.bat" -o "%TEMPLATE_DIR%AutoUpdate.bat"
 if exist "%TEMPLATE_DIR%AutoUpdate.bat" (
     call "%TEMPLATE_DIR%AutoUpdate.bat" "%PROJECT_ROOT%"
+    cd /d "%PROJECT_ROOT%"
 )
 
 rem ===== Download and run AutoRun =====
@@ -26,4 +27,5 @@ echo [INFO] Downloading AutoRun...
 curl -sL "%BASE_URL%/AutoRun.bat" -o "%TEMPLATE_DIR%AutoRun.bat"
 if exist "%TEMPLATE_DIR%AutoRun.bat" (
     call "%TEMPLATE_DIR%AutoRun.bat" "%PROJECT_ROOT%"
+    cd /d "%PROJECT_ROOT%"
 )
