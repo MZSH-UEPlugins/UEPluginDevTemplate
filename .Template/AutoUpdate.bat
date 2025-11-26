@@ -34,5 +34,5 @@ rem ===== Run SimpleFileUpdater =====
 echo [INFO] Running SimpleFileUpdater...
 set "PYTHONIOENCODING=utf-8"
 set "PYTHONUTF8=1"
-"%UPDATER_EXE%" "%CONFIG_FILE%"
+"%UPDATER_EXE%" "%CONFIG_FILE%" 2>nul || echo [WARN] SimpleFileUpdater exited with error (files may still be updated)
 echo [OK] Update completed
