@@ -74,7 +74,7 @@ Plugins/**/Intermediate/*
 DerivedDataCache/*
 
 # Custom
-!.Template/
+.Template/
 .idea/
 .claude/
 .temp-sync/
