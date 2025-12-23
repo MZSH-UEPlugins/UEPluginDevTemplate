@@ -6,9 +6,17 @@ Uses SSH authentication, no token needed
 
 import os
 import shutil
+import stat
 import subprocess
 import sys
 from pathlib import Path
+
+
+def remove_readonly(func, path, _):
+    """Handle readonly files on Windows"""
+    os.chmod(path, stat.S_IWRITE)
+    func(path)
+
 
 # Config
 PUBLIC_REPO_SSH = "git@github.com:mengzhishanghun/mengzhishanghun.git"
@@ -44,7 +52,7 @@ def main():
     temp_dir = project_root / ".temp-sync"
     if temp_dir.exists():
         print(f"Cleaning old temp directory...")
-        shutil.rmtree(temp_dir)
+        shutil.rmtree(temp_dir, onerror=remove_readonly)
     temp_dir.mkdir()
 
     try:
@@ -104,7 +112,7 @@ def main():
         print("\nCleaning up temp files...")
         if temp_dir.exists():
             try:
-                shutil.rmtree(temp_dir)
+                shutil.rmtree(temp_dir, onerror=remove_readonly)
             except Exception as e:
                 print(f"Warning: Failed to cleanup temp dir: {e}")
 
