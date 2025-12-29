@@ -19,7 +19,7 @@ def remove_readonly(func, path, _):
 
 
 # Config
-PUBLIC_REPO_SSH = "git@github.com:mengzhishanghun/mengzhishanghun.git"
+PUBLIC_REPO_SSH = "git@github.com:MZSH-UEPlugins/UEPluginDocs.git"
 PUBLIC_REPO_BRANCH = "main"
 
 def run_command(cmd, cwd=None, check=True):
@@ -61,7 +61,7 @@ def main():
         run_command(["git", "clone", "--depth", "1", "-b", PUBLIC_REPO_BRANCH, PUBLIC_REPO_SSH, str(temp_dir / "repo")])
 
         repo_dir = temp_dir / "repo"
-        target_dir = repo_dir / "UEPlugins" / project_name
+        target_dir = repo_dir / project_name
 
         # Create target directory
         print(f"Creating target directory: {target_dir}")
@@ -100,7 +100,7 @@ def main():
             print("Pushing to remote...")
             run_command(["git", "push"], cwd=repo_dir)
             print(f"\nSUCCESS! Docs synced to:")
-            print(f"https://github.com/mengzhishanghun/mengzhishanghun/tree/main/UEPlugins/{project_name}")
+            print(f"https://github.com/MZSH-UEPlugins/UEPluginDocs/tree/main/{project_name}")
 
     except Exception as e:
         print(f"\nEXCEPTION: {str(e)}")
