@@ -1,6 +1,6 @@
 ../.gitignore = https://raw.githubusercontent.com/MZSH-UEPlugins/UEPluginDevTemplate/refs/heads/main/.gitignore
 ../LICENSE = https://raw.githubusercontent.com/MZSH-UEPlugins/UEPluginDevTemplate/refs/heads/main/LICENSE
-../插件一键打包工具.exe = https://raw.githubusercontent.com/mengzhishanghun/mengzhishanghun/main/Tools/UEPluginPacker.exe
+../插件一键打包工具.exe = https://github.com/MZSH-Tools/UEPluginAutoPacker/releases/latest/download/UEPluginPacker.exe
 sync-docs.py = https://raw.githubusercontent.com/MZSH-UEPlugins/UEPluginDevTemplate/refs/heads/main/.Template/sync-docs.py
 hooks/pre-push = https://raw.githubusercontent.com/MZSH-UEPlugins/UEPluginDevTemplate/refs/heads/main/.Template/hooks/pre-push
 install-hooks.bat = https://raw.githubusercontent.com/MZSH-UEPlugins/UEPluginDevTemplate/refs/heads/main/.Template/install-hooks.bat
