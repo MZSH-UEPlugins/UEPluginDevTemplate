@@ -1,20 +1,9 @@
 #!/bin/sh
-# Git Hook: Auto sync docs to public repo before push
+# 推送前自动同步 Docs 到公开仓库
 
-# Check if commits to be pushed contain doc changes
-remote="$1"
-url="$2"
-
-# Get current branch
-current_branch=$(git symbolic-ref --short HEAD)
-
-# Check if there are Docs/ changes compared to remote
-if git diff origin/$current_branch...HEAD --name-only 2>/dev/null | grep -qE '^Docs/'; then
-    echo "Docs changes detected, syncing to public repo..."
-    python .Template/sync-docs.py
-    if [ $? -ne 0 ]; then
-        echo "Doc sync failed, push cancelled"
-        exit 1
-    fi
-    echo "Doc sync successful"
+branch=$(git symbolic-ref --short HEAD)
+if git diff origin/$branch...HEAD --name-only 2>/dev/null | grep -qE '^Docs/'; then
+    echo "Docs changed, syncing..."
+    python .Template/sync-docs.py || { echo "Sync failed, push cancelled"; exit 1; }
+    echo "Sync done"
 fi

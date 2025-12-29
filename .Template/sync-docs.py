@@ -1,122 +1,87 @@
 #!/usr/bin/env python3
-"""
-Auto sync documentation to public repository
-Uses SSH authentication, no token needed
-"""
+# 自动同步文档到公开仓库（SSH 认证）
 
-import os
-import shutil
-import stat
-import subprocess
-import sys
+import os, shutil, stat, subprocess, sys
 from pathlib import Path
+
+PUBLIC_REPO_SSH = "git@github.com:MZSH-UEPlugins/UEPluginDocs.git"
+PUBLIC_REPO_BRANCH = "main"
 
 
 def remove_readonly(func, path, _):
-    """Handle readonly files on Windows"""
     os.chmod(path, stat.S_IWRITE)
     func(path)
 
 
-# Config
-PUBLIC_REPO_SSH = "git@github.com:MZSH-UEPlugins/UEPluginDocs.git"
-PUBLIC_REPO_BRANCH = "main"
-
-def run_command(cmd, cwd=None, check=True):
-    """Execute command"""
+def run_cmd(cmd, cwd=None, check=True):
     print(f"Running: {' '.join(cmd)}")
     result = subprocess.run(cmd, cwd=cwd, capture_output=True, text=True, encoding='utf-8', errors='ignore')
     if check and result.returncode != 0:
-        print(f"ERROR: {result.stderr}")
-        print(f"OUTPUT: {result.stdout}")
+        print(f"ERROR: {result.stderr}\nOUTPUT: {result.stdout}")
         sys.exit(1)
     return result
 
 def main():
-    # Get project root (parent of .Template)
     script_dir = Path(__file__).parent.absolute()
     project_root = script_dir.parent if script_dir.name == ".Template" else script_dir
     project_name = project_root.name
-
-    print(f"Project detected: {project_name}")
-    print(f"Project root: {project_root}")
-
-    # Check Docs
     docs_path = project_root / "Docs"
+    temp_dir = project_root / ".temp-sync"
+
+    print(f"Project: {project_name} ({project_root})")
 
     if not docs_path.exists():
-        print(f"ERROR: Docs directory not found at {docs_path}")
+        print(f"ERROR: Docs not found at {docs_path}")
         sys.exit(1)
 
-    # Create temp directory
-    temp_dir = project_root / ".temp-sync"
     if temp_dir.exists():
-        print(f"Cleaning old temp directory...")
         shutil.rmtree(temp_dir, onerror=remove_readonly)
     temp_dir.mkdir()
 
     try:
-        # Clone public repo
         print("\nCloning public repository...")
-        run_command(["git", "clone", "--depth", "1", "-b", PUBLIC_REPO_BRANCH, PUBLIC_REPO_SSH, str(temp_dir / "repo")])
+        run_cmd(["git", "clone", "--depth", "1", "-b", PUBLIC_REPO_BRANCH, PUBLIC_REPO_SSH, str(temp_dir / "repo")])
 
         repo_dir = temp_dir / "repo"
         target_dir = repo_dir / project_name
-
-        # Create target directory
-        print(f"Creating target directory: {target_dir}")
         target_dir.mkdir(parents=True, exist_ok=True)
 
-        # Remove all old content in target directory
+        # 清空目标目录
         for item in target_dir.iterdir():
-            if item.is_file():
-                item.unlink()
-            elif item.is_dir():
-                shutil.rmtree(item)
+            (shutil.rmtree if item.is_dir() else os.unlink)(item)
 
-        # Copy Docs content directly to target directory (flatten)
-        print("\nCopying Docs content...")
+        # 复制 Docs 内容
+        print("\nCopying Docs...")
         for item in docs_path.iterdir():
-            if item.is_file():
-                shutil.copy2(item, target_dir / item.name)
-                print(f"  Copied: {item.name}")
-            elif item.is_dir():
-                shutil.copytree(item, target_dir / item.name)
-                print(f"  Copied: {item.name}/")
+            dest = target_dir / item.name
+            (shutil.copytree if item.is_dir() else shutil.copy2)(item, dest)
+            print(f"  {item.name}{'/' if item.is_dir() else ''}")
 
-        # Commit and push
-        print("\nCommitting changes...")
-        run_command(["git", "config", "user.name", "Auto Sync"], cwd=repo_dir)
-        run_command(["git", "config", "user.email", "mengzhishanghun@users.noreply.github.com"], cwd=repo_dir)
-        run_command(["git", "add", "."], cwd=repo_dir)
+        # 提交推送
+        print("\nCommitting...")
+        run_cmd(["git", "config", "user.name", "Auto Sync"], cwd=repo_dir)
+        run_cmd(["git", "config", "user.email", "mengzhishanghun@users.noreply.github.com"], cwd=repo_dir)
+        run_cmd(["git", "add", "."], cwd=repo_dir)
 
-        # Check for changes
-        status = run_command(["git", "status", "--porcelain"], cwd=repo_dir, check=False)
+        status = run_cmd(["git", "status", "--porcelain"], cwd=repo_dir, check=False)
         if not status.stdout.strip():
-            print("\nNo documentation changes, skip sync")
+            print("\nNo changes, skip sync")
         else:
-            print("Changes detected, committing...")
-            run_command(["git", "commit", "-m", f"Update docs for {project_name}"], cwd=repo_dir)
-            print("Pushing to remote...")
-            run_command(["git", "push"], cwd=repo_dir)
-            print(f"\nSUCCESS! Docs synced to:")
-            print(f"https://github.com/MZSH-UEPlugins/UEPluginDocs/tree/main/{project_name}")
+            run_cmd(["git", "commit", "-m", f"Update docs for {project_name}"], cwd=repo_dir)
+            run_cmd(["git", "push"], cwd=repo_dir)
+            print(f"\nSUCCESS! https://github.com/MZSH-UEPlugins/UEPluginDocs/tree/main/{project_name}")
 
     except Exception as e:
-        print(f"\nEXCEPTION: {str(e)}")
         import traceback
+        print(f"\nEXCEPTION: {e}")
         traceback.print_exc()
         sys.exit(1)
     finally:
-        # Cleanup temp directory
-        print("\nCleaning up temp files...")
+        print("\nCleaning up...")
         if temp_dir.exists():
-            try:
-                shutil.rmtree(temp_dir, onerror=remove_readonly)
-            except Exception as e:
-                print(f"Warning: Failed to cleanup temp dir: {e}")
+            shutil.rmtree(temp_dir, onerror=remove_readonly, ignore_errors=True)
 
-    print("\nDone!")
+    print("Done!")
 
 if __name__ == "__main__":
     main()
