@@ -4,6 +4,6 @@
 branch=$(git symbolic-ref --short HEAD)
 if git diff origin/$branch...HEAD --name-only 2>/dev/null | grep -qE '^Docs/'; then
     echo "Docs changed, syncing..."
-    python .Template/sync-docs.py || { echo "Sync failed, push cancelled"; exit 1; }
+    python .Template/SyncDocs.py || { echo "Sync failed, push cancelled"; exit 1; }
     echo "Sync done"
 fi
