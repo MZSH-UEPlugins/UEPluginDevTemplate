@@ -1,6 +1,12 @@
 #!/bin/sh
 # 推送前自动同步 Docs 到公开仓库
 
+# 检查是否为 MZSH-UEPlugins 组织的仓库
+origin_url=$(git remote get-url origin 2>/dev/null)
+if ! echo "$origin_url" | grep -qE 'github\.com[:/]MZSH-UEPlugins/'; then
+    exit 0
+fi
+
 branch=$(git symbolic-ref --short HEAD)
 if git diff origin/$branch...HEAD --name-only 2>/dev/null | grep -qE '^Docs/'; then
     echo "Docs changed, syncing..."

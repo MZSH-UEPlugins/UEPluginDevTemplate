@@ -14,6 +14,11 @@
 
 ```
 UEPluginDevTemplate/
+├── .Template/                # 模板工具目录
+│   ├── hooks/pre-push        # Git Hook：推送前自动同步文档
+│   ├── InstallHooks.bat/.sh  # Hook 安装脚本
+│   └── SyncDocs.py           # 文档同步脚本
+├── Docs/                     # 插件公开文档（会同步到文档仓库）
 ├── Plugins/                  # 插件开发目录，支持多个插件共存
 │   └── YourPlugin/
 │       ├── Source/
@@ -21,8 +26,22 @@ UEPluginDevTemplate/
 │       └── YourPlugin.uplugin
 ├── README.md                 # 本说明文件
 ├── .gitignore                # 已配置常用中间目录屏蔽
-├── UEPluginDevTemplate.uproject
+└── UEPluginDevTemplate.uproject
 ```
+
+---
+
+## 🔧 模板工具说明
+
+### Hook 安装
+
+运行 `.Template/InstallHooks.bat`（Windows）或 `.Template/InstallHooks.sh`（macOS/Linux）安装 Git Hook。
+
+### 文档自动同步
+
+安装 Hook 后，推送时若 `Docs/` 目录有变更，会自动同步到 [UEPluginDocs](https://github.com/MZSH-UEPlugins/UEPluginDocs) 仓库。
+
+> ⚠️ **注意**：此功能仅对 `MZSH-UEPlugins` 组织下的仓库生效。使用此模板创建的其他仓库不会触发同步，可放心使用。
 
 ---
 
