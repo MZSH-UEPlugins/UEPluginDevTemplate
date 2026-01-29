@@ -1,96 +1,25 @@
-# UEPluginDevTemplate 插件开发模板
+# UEPluginDevTemplate
 
-这是一个用于开发 Unreal Engine 插件的通用项目模板，包含：
+Unreal Engine 插件开发模板，用于快速搭建插件开发与测试环境。
 
-- 一个标准的空白 UE 项目 (`.uproject`)；
-- 可直接放置插件到 `Plugins/` 下进行开发与测试；
-- 自带通用 `.gitignore`、LICENSE 文件、README 结构；
-- 可用于快速搭建多个插件的测试与迭代环境；
-- 支持 PR 合并流程配置与规范提交记录（适合长期维护）。
+## 核心功能
 
----
+- 标准空白 UE 项目，可直接放置插件到 `Plugins/` 下开发测试
+- 预配置 `.gitignore`、LICENSE、文档结构
+- 支持多插件并行开发
+- 内置文档同步工具（MZSH-UEPlugins 组织专用）
 
-## 📁 项目结构说明
+## 适用场景
 
-```
-UEPluginDevTemplate/
-├── .Template/                # 模板工具目录
-│   ├── hooks/pre-push        # Git Hook：推送前自动同步文档
-│   ├── InstallHooks.bat/.sh  # Hook 安装脚本
-│   └── SyncDocs.py           # 文档同步脚本
-├── Docs/                     # 插件公开文档（会同步到文档仓库）
-├── Plugins/                  # 插件开发目录，支持多个插件共存
-│   └── YourPlugin/
-│       ├── Source/
-│       ├── Content/
-│       └── YourPlugin.uplugin
-├── README.md                 # 本说明文件
-├── .gitignore                # 已配置常用中间目录屏蔽
-└── UEPluginDevTemplate.uproject
-```
+- 插件原型开发、框架验证、性能测试
+- 多插件并行开发测试
+- FAB / GitHub 发布前的打包准备环境
 
----
+## 快速开始
 
-## 🔧 模板工具说明
+详细使用说明请参阅 [Docs/README.md](Docs/README.md)
 
-### Hook 安装
+## 联系方式
 
-运行 `.Template/InstallHooks.bat`（Windows）或 `.Template/InstallHooks.sh`（macOS/Linux）安装 Git Hook。
-
-### 文档自动同步
-
-安装 Hook 后，推送时若 `Docs/` 目录有变更，会自动同步到 [UEPluginDocs](https://github.com/MZSH-UEPlugins/UEPluginDocs) 仓库。
-
-> ⚠️ **注意**：此功能仅对 `MZSH-UEPlugins` 组织下的仓库生效。使用此模板创建的其他仓库不会触发同步，可放心使用。
-
----
-
-## 📄 使用方式
-
-1. 通过 GitHub 点击 "Use this template" 按钮，创建新的插件开发仓库；
-2. 修改 `Plugins/YourPlugin/` 目录为你的插件名称并放入源码；
-3. 使用 Rider / Visual Studio 打开 `.uproject` 进行开发；
-4. 插件功能可在项目中直接调试测试；
-5. 插件开发完成后，可通过打包脚本导出 `.zip` 用于发布；
-6. 所有提交应通过 Pull Request 合并到主分支（main）；
-
----
-
-## 🔀 Pull Request 流程建议
-
-为了保持清晰的提交历史与项目质量，建议每次合并遵循以下规则：
-
-- ✅ 使用 Squash merge 方式合并 PR；
-- ✅ 配置默认合并信息为：**Pull request title and commit details**；
-- ✅ 所有分支合并主分支（main）都应通过 PR 执行；
-- ✅ 合并后自动删除分支，保持仓库整洁；
-- ✅ 推荐开启线性历史（Require linear history）防止 merge commit 污染。
-
----
-
-## 📌 源码头部声明规范
-
-建议每个 `.h` 和 `.cpp` 文件添加如下声明，以明确插件归属与使用约定：
-
-```cpp
-// Copyright mengzhishanghun 2025 All Rights Reserved.
-```
-
-你可以根据此模板批量添加到所有源文件中，以提升项目的专业性与合规性。
-
----
-
-## 🧑‍💻 适用场景
-
-- 插件原型开发 / 框架验证 / 性能测试；
-- 多插件并行开发测试；
-- 提交到 FAB 或 GitHub 前的发布打包准备环境。
-
----
-
-## 📬 联系方式
-
-如有合作意向、插件开发定制、模板建议等，欢迎联系作者：
-
-**作者署名**：mengzhishanghun  
-**邮箱地址**：mengzhishanghun@outlook.com
+作者：mengzhishanghun
+邮箱：mengzhishanghun@outlook.com

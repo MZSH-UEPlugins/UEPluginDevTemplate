@@ -21,6 +21,50 @@ def run_cmd(cmd, cwd=None, check=True):
         sys.exit(1)
     return result
 
+def is_template_repo():
+    """检查当前仓库是否为 GitHub 模板仓库"""
+    try:
+        # 获取远程仓库 URL
+        result = subprocess.run(
+            ["git", "remote", "get-url", "origin"],
+            capture_output=True, text=True, encoding='utf-8', errors='ignore'
+        )
+        if result.returncode != 0 or not result.stdout.strip():
+            print("No remote origin found, skip sync")
+            return True
+
+        remote_url = result.stdout.strip()
+        # 解析 owner/repo（支持 SSH 和 HTTPS 格式）
+        if "github.com" not in remote_url:
+            print("Not a GitHub repo, skip sync")
+            return True
+
+        if remote_url.startswith("git@"):
+            # git@github.com:owner/repo.git
+            repo_path = remote_url.split(":")[-1].replace(".git", "")
+        else:
+            # https://github.com/owner/repo.git
+            repo_path = remote_url.split("github.com/")[-1].replace(".git", "")
+
+        # 调用 GitHub API 检查是否为模板仓库
+        result = subprocess.run(
+            ["gh", "api", f"repos/{repo_path}", "--jq", ".is_template"],
+            capture_output=True, text=True, encoding='utf-8', errors='ignore'
+        )
+        if result.returncode != 0:
+            print(f"Failed to query GitHub API, skip sync")
+            return True
+
+        if result.stdout.strip() == "true":
+            print("Template repo detected, skip sync")
+            return True
+
+        return False
+    except Exception as e:
+        print(f"Error checking repo: {e}, skip sync")
+        return True
+
+
 def main():
     script_dir = Path(__file__).parent.absolute()
     project_root = script_dir.parent if script_dir.name == ".Template" else script_dir
@@ -29,6 +73,9 @@ def main():
     temp_dir = project_root / ".temp-sync"
 
     print(f"Project: {project_name} ({project_root})")
+
+    if is_template_repo():
+        return
 
     if not docs_path.exists():
         print(f"ERROR: Docs not found at {docs_path}")
