@@ -85,3 +85,6 @@ DerivedDataCache/*
 PackagedPlugins/
 Platforms/
 nul
+*.code-workspace
+.ignore
+.vscode/
