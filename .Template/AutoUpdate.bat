@@ -21,5 +21,9 @@ if not exist "%CONFIG_FILE%" ( echo [ERROR] Download failed & exit /b 1 )
 echo [INFO] Running SimpleFileUpdater...
 set "PYTHONIOENCODING=utf-8"
 set "PYTHONUTF8=1"
-echo. | "%UPDATER_EXE%" "%CONFIG_FILE%" 2>nul || echo [WARN] Updater error (files may still be updated)
-echo [OK] Update completed
+"%UPDATER_EXE%" "%CONFIG_FILE%"
+if errorlevel 1 (
+    echo [WARN] Updater exited with code %errorlevel%, see messages above
+) else (
+    echo [OK] Update completed
+)
