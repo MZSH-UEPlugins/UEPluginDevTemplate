@@ -88,3 +88,6 @@ nul
 *.code-workspace
 .ignore
 .vscode/
+
+# 打包工具生成的过滤配置（每次打包覆盖生成，属本地产物）
+Plugins/**/Config/FilterPlugin.ini
