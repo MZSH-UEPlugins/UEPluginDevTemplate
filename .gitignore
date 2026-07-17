@@ -91,3 +91,12 @@ nul
 
 # 打包工具生成的过滤配置（每次打包覆盖生成，属本地产物）
 Plugins/**/Config/FilterPlugin.ini
+
+# UE Binaries：纳管部署产物，忽略调试、中间和独立程序
+.codex/
+!**/Binaries/
+!**/Binaries/**
+**/Binaries/**/*.pdb
+**/Binaries/**/*.exp
+**/Binaries/**/*.exe
+**/DevDocs/
